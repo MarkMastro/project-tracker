@@ -17,6 +17,7 @@ const getAllProjects = async (req, res) => {
                                     queryDb(`SELECT COUNT(*) FROM stories INNER JOIN projects on stories.project_id = projects.id WHERE projects.id = ${project.id};`)
                                         ]);
         console.log("abcd", results)
+        
         response.push(
             {
             id: project.id,
