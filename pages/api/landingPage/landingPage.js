@@ -3,17 +3,26 @@ import queryDb from "../../../db/bin/queryDb";
 
 const getAllProjects = async (req, res) => {
     const response = [];
-    const projectIds = await queryDb(
-        `SELECT id
+    const projects = await queryDb(
+        `SELECT id, project_name
         FROM projects;`
         );
 
-        console.log("ids",projectIds)
+        console.log("ids",projects)
 
-    for(const projectId of projectIds){
-        response.push({projectId: projectId,
-            open_bugs: await queryDb(`SELECT COUNT(*) FROM bugs WHERE id = ${projectId};`), 
-            open_stories: await queryDb(`SELECT COUNT(*) FROM stories WHERE id = ${projectId};`)
+    for(const project of projects){
+        console.log("project id",project.id)
+        const results = await Promise.all([
+                                    queryDb(`SELECT COUNT(*) FROM bugs INNER JOIN projects on bugs.project_id = projects.id WHERE projects.id = ${project.id};`), 
+                                    queryDb(`SELECT COUNT(*) FROM stories INNER JOIN projects on stories.project_id = projects.id WHERE projects.id = ${project.id};`)
+                                        ]);
+        console.log("abcd", results)
+        response.push(
+            {
+            id: project.id,
+            project_name: project.project_name,
+            open_bugs: results[0][0].count, 
+            open_stories: results[1][0].count
             })
     }
 

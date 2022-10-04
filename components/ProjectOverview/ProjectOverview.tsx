@@ -16,7 +16,6 @@ const openProject = () => {
 
 const ProjectOverview = (props: Props) => {
     const {id, projectName, openStories, openBugs} = props;
-
     return (
             <Link 
                 href={{
