@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS stories
     "id" SERIAL PRIMARY KEY,
     "story_name" VARCHAR(100) NOT NULL,
     "story_description" VARCHAR (256) NOT NULL,
+    "project_id" INTEGER REFERENCES projects (id) ON DELETE CASCADE,
     "user_id"  INTEGER REFERENCES users (id) ON DELETE CASCADE
 );
 --user_id is the bug creator, project_id is the project the bug belongs to
