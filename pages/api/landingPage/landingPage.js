@@ -8,16 +8,12 @@ const getAllProjects = async (req, res) => {
         FROM projects;`
         );
 
-        console.log("ids",projects)
-
     for(const project of projects){
         console.log("project id",project.id)
         const results = await Promise.all([
                                     queryDb(`SELECT COUNT(*) FROM bugs INNER JOIN projects on bugs.project_id = projects.id WHERE projects.id = ${project.id};`), 
                                     queryDb(`SELECT COUNT(*) FROM stories INNER JOIN projects on stories.project_id = projects.id WHERE projects.id = ${project.id};`)
                                         ]);
-        console.log("abcd", results)
-        
         response.push(
             {
             id: project.id,

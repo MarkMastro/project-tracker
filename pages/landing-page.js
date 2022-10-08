@@ -17,7 +17,7 @@ const LandingPage = ({projects}) => {
                 return (
                     <div>
                     <ProjectOverview 
-                        key={project.id}
+                        key={project.id}    
                         id={project.id} 
                         projectName = {project.project_name} 
                         openStories = {project.open_stories} 

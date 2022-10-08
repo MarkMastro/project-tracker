@@ -3,6 +3,7 @@ import styles from "./ProjectOverview.module.css";
 import Link from 'next/link';
 
 interface Props {
+    key: number,
     id: number,
     projectName: string,
     openStories: number,
@@ -15,12 +16,15 @@ const openProject = () => {
 }
 
 const ProjectOverview = (props: Props) => {
-    const {id, projectName, openStories, openBugs} = props;
+    const {key, id, projectName, openStories, openBugs} = props;
+    console.log("prjoect over props", props)
     return (
             <Link 
+                key = {id}
                 href={{
                     pathname: "/project",
                     query:{
+                        key,
                         id,
                         projectName,
                         openStories,
