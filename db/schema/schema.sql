@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS stories CASCADE;
 DROP TABLE IF EXISTS bugs CASCADE;
 DROP TABLE IF EXISTS projects CASCADE;
+DROP TABLE IF EXISTS tickets CASCADE;
+
 
 -- Create our table if it doesn't already exist
 CREATE TABLE IF NOT EXISTS users
@@ -32,7 +34,8 @@ CREATE TABLE IF NOT EXISTS tickets
     "ticket_description" VARCHAR (256) NOT NULL,
     "project_id" INTEGER REFERENCES projects (id) ON DELETE CASCADE,
     "raised_by_user_id"  INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    "assigned_to_user_id"  INTEGER REFERENCES users (id) ON DELETE CASCADE
+    "assigned_to_user_id"  INTEGER REFERENCES users (id) ON DELETE CASCADE,
+    "created_on" DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS comments
@@ -41,7 +44,8 @@ CREATE TABLE IF NOT EXISTS comments
     "text" TEXT NOT NULL,
     "posted_on" DATE NOT NULL,
     "user_id" INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    "project_id" INTEGER REFERENCES projects (id) ON DELETE CASCADE
+    "project_id" INTEGER REFERENCES projects (id) ON DELETE CASCADE,
+    "created_on" DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS project_members
