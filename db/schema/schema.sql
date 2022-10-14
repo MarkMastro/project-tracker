@@ -38,13 +38,12 @@ CREATE TABLE IF NOT EXISTS tickets
     "created_on" DATE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS comments
+CREATE TABLE IF NOT EXISTS ticket_comments
 (
     "id" SERIAL PRIMARY KEY,
     "text" TEXT NOT NULL,
-    "posted_on" DATE NOT NULL,
     "user_id" INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    "project_id" INTEGER REFERENCES projects (id) ON DELETE CASCADE,
+    "ticket_id" INTEGER REFERENCES tickets (id) ON DELETE CASCADE,
     "created_on" DATE NOT NULL
 );
 
