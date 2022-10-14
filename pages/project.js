@@ -6,9 +6,9 @@ const Project = (props) =>{
     
     const router = useRouter();
 
-    const ticketClick = (e) => {
-        console.log("event", e)
-        //router.push()
+    const ticketClick = (ticketId) => {
+        console.log("ticketId", ticketId)
+        router.push(`/tickets/${ticketId}`)
     }
 
     return(
@@ -29,7 +29,15 @@ const Project = (props) =>{
                     {openTickets.map(ticket => {
                         return (
                         
-                                <tr onClick = {()=>ticketClick(ticket.id)} key = {ticket.id}>
+                                <tr 
+                                    onClick = {()=>router.push({
+                                        pathname: '/ticket',
+                                        query: { 
+                                            ticketId: ticket.id,
+                                            ticketName: ticket.ticket_name
+                                        }
+                                     })} 
+                                    key = {ticket.id}>
                                     <td>{ticket.ticket_name}</td>
                                     <td>{ticket.type}</td>
                                     <td>{ticket.ticket_description}</td>
@@ -44,7 +52,6 @@ const Project = (props) =>{
 Project.getInitialProps = async (context) => {
     const resp = await fetch(`http://localhost:3000/api/projects/${context.query.id}`);
     const json = await resp.json();
-    console.log("json", json)
     return {props: json}
 }
 

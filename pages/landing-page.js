@@ -15,16 +15,12 @@ const LandingPage = ({projects}) => {
            {
             projects.map(project =>  {
                 return (
-                    <div>
                     <ProjectOverview 
-                        key={project.id}    
                         id={project.id} 
                         projectName = {project.project_name} 
                         openFeatureCount = {project.openFeatureCount} 
                         openBugCount = {project.openBugCount}
                         />
-                        <hr></hr>
-                        </div>
                     )
 
             })

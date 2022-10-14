@@ -1,4 +1,3 @@
-import { resolveSoa } from "dns";
 import { NextApiRequest, NextApiResponse } from "next";
 import queryDb from "../../../db/bin/queryDb";
 
