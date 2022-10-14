@@ -1,8 +1,16 @@
 import NavBar from "../components/NavBar/NavBar";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Project = (props) =>{
-    const {projectName, openBugs, openStories} = props;
+    const {projectName, openTickets} = props.props;
+    
+    const router = useRouter();
+
+    const ticketClick = (e) => {
+        console.log("event", e)
+        //router.push()
+    }
+
     return(
         <div>
             <NavBar></NavBar>
@@ -10,63 +18,34 @@ const Project = (props) =>{
             <h2>Project Name: {projectName}</h2>
 
             <table>
-                <tr>
-                    <th>Ticket Name</th>
-                    <th>Ticket Type</th>
-                    <th>Description</th>
-                </tr>
-                {openBugs.map(bug => {
-                    return (
-                        <Link
-                        href={{
-                            pathname: "/bug",
-                            query:{
-                                id: bug.id,
-                                bugName: bug.bug_name,
-                                bugDescription: bug.bug_description
-                            }
-                            }}
-                            >
-                            <tr>
-                                <td>{bug.bug_name}</td>
-                                <td>Bug</td>
-                                <td>{bug.bug_description}</td>
-
-                            </tr>
-                        </Link>
-                    )
-                })}
-                {openStories.map(story => {
-                    return (
-                        <Link
-                        href={{
-                            pathname: "/story",
-                            query:{
-                                id: story.id,
-                                storyName: story.story_name,
-                                storyDescription: story.story_description
-                            }
-                            }}>
+                <thead>
+                    <tr>
+                        <th>Ticket Name</th>
+                        <th>Ticket Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {openTickets.map(ticket => {
+                        return (
                         
-                            
-                            <tr>
-                                <td>{story.story_name}</td>
-                                <td>Story</td>
-                                <td>{story.story_description}</td>
-
-                            </tr>
-                        </Link>
-                    )
-                })}
-                
+                                <tr onClick = {()=>ticketClick(ticket.id)} key = {ticket.id}>
+                                    <td>{ticket.ticket_name}</td>
+                                    <td>{ticket.type}</td>
+                                    <td>{ticket.ticket_description}</td>
+                                </tr>
+                        )
+                    })}
+                </tbody>
             </table>
         </div>
     )
 }
-export async function getServerSideProps  (context) {
+Project.getInitialProps = async (context) => {
     const resp = await fetch(`http://localhost:3000/api/projects/${context.query.id}`);
     const json = await resp.json();
-    return {props: {...json, projectName: context.query.projectName}}
+    console.log("json", json)
+    return {props: json}
 }
 
 export default Project;

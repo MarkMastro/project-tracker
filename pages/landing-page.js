@@ -20,8 +20,8 @@ const LandingPage = ({projects}) => {
                         key={project.id}    
                         id={project.id} 
                         projectName = {project.project_name} 
-                        openStories = {project.open_stories} 
-                        openBugs = {project.open_bugs}
+                        openFeatureCount = {project.openFeatureCount} 
+                        openBugCount = {project.openBugCount}
                         />
                         <hr></hr>
                         </div>
@@ -37,7 +37,6 @@ const LandingPage = ({projects}) => {
 LandingPage.getInitialProps = async () => {
     const resp = await fetch('http://localhost:3000/api/landingPage/landingPage');
     const json = await resp.json();
-    console.log("projects", json)
     return {projects: json}
 }
 

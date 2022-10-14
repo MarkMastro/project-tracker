@@ -9,21 +9,28 @@ const getAllProjects = async (req, res) => {
         );
 
     for(const project of projects){
-        console.log("project id",project.id)
-        const results = await Promise.all([
-                                    queryDb(`SELECT COUNT(*) FROM bugs INNER JOIN projects on bugs.project_id = projects.id WHERE projects.id = ${project.id};`), 
-                                    queryDb(`SELECT COUNT(*) FROM stories INNER JOIN projects on stories.project_id = projects.id WHERE projects.id = ${project.id};`)
-                                        ]);
+        let openBugCount = 0;
+        let openFeatureCount = 0;
+
+        const results = await queryDb(`SELECT * FROM tickets INNER JOIN projects on tickets.project_id = projects.id WHERE projects.id = ${project.id};`);
+
+        for(const result of results) {
+            if(result.type === 'Bug'){
+                openBugCount++;
+            } else if (result.type === 'Feature'){
+                openFeatureCount++;
+            }
+        }
+
         response.push(
             {
             id: project.id,
             project_name: project.project_name,
-            open_bugs: results[0][0].count, 
-            open_stories: results[1][0].count
+            openBugCount, 
+            openFeatureCount
             })
     }
 
-    console.log("response", response)
     res.json(response);
 }
 

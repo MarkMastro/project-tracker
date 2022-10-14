@@ -6,8 +6,8 @@ interface Props {
     key: number,
     id: number,
     projectName: string,
-    openStories: number,
-    openBugs: number
+    openFeatureCount: number,
+    openBugCount: number
 
 }
 
@@ -16,8 +16,7 @@ const openProject = () => {
 }
 
 const ProjectOverview = (props: Props) => {
-    const {key, id, projectName, openStories, openBugs} = props;
-    console.log("prjoect over props", props)
+    const {key, id, projectName, openFeatureCount, openBugCount} = props;
     return (
             <Link 
                 key = {id}
@@ -27,14 +26,14 @@ const ProjectOverview = (props: Props) => {
                         key,
                         id,
                         projectName,
-                        openStories,
-                        openBugs
+                        openFeatureCount,
+                        openBugCount
                     }
                     }}>
                 <div>
                     <h3>Project Name: {projectName}</h3>
-                    <h4>Open Stories: {openStories}</h4>
-                    <h4>Open Bugs: {openBugs}</h4>
+                    <h4>Open Features: {openFeatureCount}</h4>
+                    <h4>Open Bugs: {openBugCount}</h4>
                 </div>
             </Link>
 

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS projects
 (
     "id" SERIAL PRIMARY KEY,
-    "name" VARCHAR(100) NOT NULL,
+    "project_name" VARCHAR(100) NOT NULL,
     "description" TEXT,
     "created_on" DATE,  
     "owner_user_id" INTEGER REFERENCES users (id) ON DELETE CASCADE

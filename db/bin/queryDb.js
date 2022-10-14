@@ -4,9 +4,9 @@ const dbConfig = require("../dbConfig")
 
 
 const queryDb = async (query) => {
+    const client = new Client({dbConfig});
+
     try{
-        const client = new Client({dbConfig});
-        console.log("querying...")
         await client.connect();
         const results = await client.query(query);
         console.log("results....", results.rows);
