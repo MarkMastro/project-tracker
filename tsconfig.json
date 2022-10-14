@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/project.js", "pages/api/landingPage/landingPage.js", "pages/landing-page.js", "pages/landing-page.js", "db/bin/queryDb.js", "pages/ticket.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/project.js", "pages/api/landingPage/landingPage.js", "pages/landing-page.js", "pages/landing-page.js", "db/bin/queryDb.js", "pages/ticket.tsx", "pages/_document.js"],
   "exclude": ["node_modules"]
 }

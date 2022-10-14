@@ -1,14 +1,16 @@
 import React from "react";
+import Link from "next/link";
 import styles from "./NavBar.module.css"
 
-interface Props {
-
-}
-
-const NavBar = (props: Props) => {
+const NavBar = () => {
     return (
         <div>
-            Navbar
+            <Link href="/landing-page">
+                <button>
+                Home
+                </button>
+            </Link>
+            
         </div>
     )
 }
