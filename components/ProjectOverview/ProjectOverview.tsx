@@ -28,7 +28,8 @@ const ProjectOverview = (props: Props) => {
                         openBugCount
                     }
                     }}>
-                <div>
+                
+                <div style={{cursor: 'pointer'}}>
                     <h3>Project Name: {projectName}</h3>
                     <h4>Open Features: {openFeatureCount}</h4>
                     <h4>Open Bugs: {openBugCount}</h4>
