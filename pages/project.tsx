@@ -14,11 +14,6 @@ interface TicketProps {
     projectName:string, 
     openTickets:Ticket[]
 }
-interface Ctx{
-    query:{
-        id:number
-    }
-}
 
 interface Ticket{
     id: number, 
@@ -75,7 +70,7 @@ const Project = (props: TicketProps) =>{
     </div>
     )
 }
-export const getServerSideProps: GetServerSideProps = async ctx => {
+export const getServerSideProps: GetServerSideProps<TicketProps> = async ctx => {
 
     const projectId:string = ctx.query.id! as string;
     const projectName:string = ctx.query.projectName! as string;

@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async ctx => {
         `SELECT id, project_name
         FROM projects;`
         );
-
+        
     for(const projectInfo of projectsInfo){
         let openBugCount = 0;
         let openFeatureCount = 0;

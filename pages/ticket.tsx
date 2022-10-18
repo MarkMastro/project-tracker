@@ -1,24 +1,21 @@
 import NavBar from "../components/NavBar/NavBar"
 import queryDb from "../db/bin/queryDb";
-
-import {GetServerSideProps} from "next";
+import { GetServerSideProps } from "next";
 import { parse } from "path";
 
-interface Props{
+interface TicketInfo{
     id: number,
     type: string,
     ticket_name: string,
     ticket_description: string,
     project_id: number,
-    raised_by_user_id: number,
     raised_by_user: string,
-    assigned_to_user_id: number,
     assigned_to_user: string,
     created_on: string
 
 }
 
-interface TicketInfo {
+interface TicketQuery {
     id: number,
     type: string,
     ticket_name: string,
@@ -28,17 +25,12 @@ interface TicketInfo {
     assigned_to_user_id: number,
     created_on: string
 }
-
-interface TicketContext {
-    query: {
-        ticketId: number,
-        ticketName: string
-    }
+interface TicketProps{
+    ticketInfo: TicketInfo
 }
 
-const Tickets = (props: Props) =>{
-    console.log("ticket", props)
-    const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = props;
+const Tickets = (ticketInfo: TicketInfo) =>{
+    const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = ticketInfo;
 return(
     <div>
         <NavBar></NavBar>
@@ -56,10 +48,10 @@ return(
 )
 }
 
-export const getServerSideProps:GetServerSideProps = async ctx => {
+export const getServerSideProps: GetServerSideProps<TicketInfo> = async ctx => {
     const ticketId:string = ctx.query.ticketId! as string;
 
-    let ticketInfo:TicketInfo[] = await queryDb(`SELECT * FROM tickets WHERE id = ${ticketId}`);
+    let ticketInfo:TicketQuery[] = await queryDb(`SELECT * FROM tickets WHERE id = ${ticketId}`);
     const {id, type, ticket_name, ticket_description, project_id, raised_by_user_id, assigned_to_user_id, created_on}  = ticketInfo[0];
     const ticketUsers = await Promise.all([
                                         queryDb(`SELECT first_name, last_name FROM users WHERE id = ${raised_by_user_id}`),
@@ -71,14 +63,14 @@ export const getServerSideProps:GetServerSideProps = async ctx => {
 
     return {
         props: {
-            id, 
-            type,
-            ticket_name,
-            ticket_description,
-            project_id,
-            raised_by_user,
-            assigned_to_user,
-            created_on: JSON.stringify(created_on).split("T")[0].substring(1)
+                id, 
+                type,
+                ticket_name,
+                ticket_description,
+                project_id,
+                raised_by_user,
+                assigned_to_user,
+                created_on: JSON.stringify(created_on).split("T")[0].substring(1)
         }
     }
 }
