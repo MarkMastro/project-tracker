@@ -25,9 +25,6 @@ interface TicketQuery {
     assigned_to_user_id: number,
     created_on: string
 }
-interface TicketProps{
-    ticketInfo: TicketInfo
-}
 
 const Tickets = (ticketInfo: TicketInfo) =>{
     const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = ticketInfo;
