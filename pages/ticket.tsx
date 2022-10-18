@@ -1,19 +1,32 @@
 import NavBar from "../components/NavBar/NavBar"
+import queryDb from "../db/bin/queryDb";
+
+import {GetServerSideProps} from "next";
+import { parse } from "path";
 
 interface Props{
-    props:{
-        id: number,
-        type: string,
-        ticket_name: string,
-        ticket_description: string,
-        project_id: number,
-        raised_by_user_id: number,
-        raised_by_user: string,
-        assigned_to_user_id: number,
-        assigned_to_user: string,
-        created_on: string
-    }
+    id: number,
+    type: string,
+    ticket_name: string,
+    ticket_description: string,
+    project_id: number,
+    raised_by_user_id: number,
+    raised_by_user: string,
+    assigned_to_user_id: number,
+    assigned_to_user: string,
+    created_on: string
 
+}
+
+interface TicketInfo {
+    id: number,
+    type: string,
+    ticket_name: string,
+    ticket_description: string,
+    project_id: number,
+    raised_by_user_id: number,
+    assigned_to_user_id: number,
+    created_on: string
 }
 
 interface TicketContext {
@@ -25,7 +38,7 @@ interface TicketContext {
 
 const Tickets = (props: Props) =>{
     console.log("ticket", props)
-    const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = props.props;
+    const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = props;
 return(
     <div>
         <NavBar></NavBar>
@@ -43,11 +56,33 @@ return(
 )
 }
 
-Tickets.getInitialProps = async (context: TicketContext) => {
-    const resp = await fetch(`http://localhost:3000/api/tickets/${context.query.ticketId}`);
-    const json = await resp.json();
-    return {props: {...json, ticketName: context.query.ticketName}}
+export const getServerSideProps:GetServerSideProps = async ctx => {
+    const ticketId:string = ctx.query.ticketId! as string;
+
+    let ticketInfo:TicketInfo[] = await queryDb(`SELECT * FROM tickets WHERE id = ${ticketId}`);
+    const {id, type, ticket_name, ticket_description, project_id, raised_by_user_id, assigned_to_user_id, created_on}  = ticketInfo[0];
+    const ticketUsers = await Promise.all([
+                                        queryDb(`SELECT first_name, last_name FROM users WHERE id = ${raised_by_user_id}`),
+                                        queryDb(`SELECT first_name, last_name FROM users WHERE id = ${assigned_to_user_id}`)
+                                    ]);
+
+    const raised_by_user = `${ticketUsers[0][0].first_name} ${ticketUsers[0][0].last_name}`;
+    const assigned_to_user = `${ticketUsers[1][0].first_name} ${ticketUsers[1][0].last_name}`;
+
+    return {
+        props: {
+            id, 
+            type,
+            ticket_name,
+            ticket_description,
+            project_id,
+            raised_by_user,
+            assigned_to_user,
+            created_on: JSON.stringify(created_on).split("T")[0].substring(1)
+        }
+    }
 }
+
 
 
 export default Tickets;

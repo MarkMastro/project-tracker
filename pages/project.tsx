@@ -7,17 +7,34 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { GetServerSideProps } from "next";
+import queryDb from "../db/bin/queryDb";
 
+interface TicketProps {
+    projectName:string, 
+    openTickets:Ticket[]
+}
+interface Ctx{
+    query:{
+        id:number
+    }
+}
 
-const Project = (props) =>{
-    const {projectName, openTickets} = props.props;
+interface Ticket{
+    id: number, 
+    type: string,
+    ticket_name: string, 
+    ticket_description: string,
+    project_id: number,
+    raised_by_user_id: string,
+    assigned_to_user_id: string,
+    created_on: string
+}
+
+const Project = (props: TicketProps) =>{
+    const {projectName, openTickets} = props;
     
     const router = useRouter();
-
-    const ticketClick = (ticketId) => {
-        console.log("ticketId", ticketId)
-        router.push(`/tickets/${ticketId}`)
-    }
 
     return(
         <div>
@@ -58,11 +75,19 @@ const Project = (props) =>{
     </div>
     )
 }
-Project.getInitialProps = async (context) => {
-    const resp = await fetch(`http://localhost:3000/api/projects/${context.query.id}`);
-    const json = await resp.json();
-    console.log(json)
-    return {props: json}
+export const getServerSideProps: GetServerSideProps = async ctx => {
+
+    const projectId:string = ctx.query.id! as string;
+    const projectName:string = ctx.query.projectName! as string;
+
+    const results:Ticket[] = await queryDb(`SELECT * FROM tickets WHERE project_id = ${projectId} ORDER BY created_on DESC;`);
+    console.log("results", results)
+    return {
+        props: {
+            "projectName": projectName, "openTickets": JSON.parse(JSON.stringify(results))
+        }
+    }
 }
+
 
 export default Project;
