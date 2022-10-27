@@ -11,6 +11,7 @@
     "resetDb": "node db/bin/resetDb.js"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^1.9.2",
     "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
