@@ -1,4 +1,3 @@
-import NavBar from "../components/NavBar/NavBar";
 import { useRouter } from "next/router";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -33,7 +32,6 @@ const Project = (props: TicketProps) =>{
 
     return(
         <div>
-            <NavBar></NavBar>
             <h1>project page</h1>
             <h2>Project Name: {projectName}</h2>
             <TableContainer component={Paper}>

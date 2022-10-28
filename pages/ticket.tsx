@@ -1,7 +1,5 @@
-import NavBar from "../components/NavBar/NavBar"
 import queryDb from "../db/bin/queryDb";
 import { GetServerSideProps } from "next";
-import { parse } from "path";
 
 interface TicketInfo{
     id: number,
@@ -30,7 +28,6 @@ const Tickets = (ticketInfo: TicketInfo) =>{
     const {id, type, ticket_name, ticket_description, project_id, raised_by_user, assigned_to_user, created_on} = ticketInfo;
 return(
     <div>
-        <NavBar></NavBar>
         <h1>Ticket page</h1>
         <h4>Ticket ID: {id}</h4>
         <h4>Ticket type: {type}</h4>

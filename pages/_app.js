@@ -7,7 +7,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from './theme';
 import createEmotionCache from './createEmotionCache';
 import { UserProvider } from '@auth0/nextjs-auth0';
-
+import NavBar from '../components/NavBar/NavBar'
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -23,6 +23,7 @@ export default function MyApp(props) {
       </Head>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <NavBar/>
           <Component {...pageProps} />
         </ThemeProvider>
     </CacheProvider>
