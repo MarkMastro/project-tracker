@@ -24,9 +24,9 @@ const NavBar = () => {
                 </button>
             </Link>
              { user ?  
-                (<div>
+                (<div>                            
                     Welcome {user.name}! <a href="/api/auth/logout">Logout</a>
-                </div>) :  ( <Link href="/api/auth/login">
+                </div>) :  ( <Link href="/api/auth/login?returnTo=/landing-page">
         <button>
           Login
         </button>
